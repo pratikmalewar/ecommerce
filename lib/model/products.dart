@@ -9,6 +9,14 @@ class Product{
   final int quantity;
   final  bool isFavorite;
 
-  Product(this.id, this.title, this.description, this.price, this.imageUrl,
-      this.productCategoryName, this.brand, this.quantity, this.isFavorite);
+  Product(
+      {this.id,
+      this.title,
+      this.description,
+      this.price,
+      this.imageUrl,
+      this.productCategoryName,
+      this.brand,
+      this.quantity,
+      this.isFavorite});
 }

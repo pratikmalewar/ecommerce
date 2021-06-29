@@ -1,26 +1,11 @@
 import 'package:badges/badges.dart';
 import 'package:ecommerce/inner_screens/product_detail.dart';
-import 'package:ecommerce/model/products.dart';
+import 'package:ecommerce/model/product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FeedsProducts extends StatefulWidget {
-  const FeedsProducts(
-      {Key kay,
-      @required this.id,
-      @required this.description,
-      @required this.price,
-      @required this.imageUrl,
-      @required this.quantity,
-      @required this.isFavorite})
-      : super(key: kay);
-
-  final String id;
-  final String description;
-  final double price;
-  final String imageUrl;
-  final int quantity;
-  final bool isFavorite;
 
   @override
   _FeedsProductsState createState() => _FeedsProductsState();
@@ -31,13 +16,15 @@ class _FeedsProductsState extends State<FeedsProducts> {
 
   @override
   Widget build(BuildContext context) {
+    final productsAttributes = Provider.of<Product>(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
+        onTap: () => Navigator.pushNamed(context, ProductDetails.routeName, arguments: productsAttributes.id),
         child: Container(
           width: 250,
-          height: 290,
+          height: 300,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
             color: Theme.of(context).backgroundColor,
@@ -54,9 +41,13 @@ class _FeedsProductsState extends State<FeedsProducts> {
                         minHeight: 100,
                         maxHeight: MediaQuery.of(context).size.height * 0.3,
                       ),
-                      child: Image.network(
-                        widget.imageUrl,
-                        fit: BoxFit.fitWidth,
+                      child: Container(
+                        width: double.infinity,
+                        height: 150,
+                        child: Image.network(
+                          productsAttributes.imageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -91,7 +82,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                       height: 4,
                     ),
                     Text(
-                      widget.description,
+                      productsAttributes.description,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: TextStyle(
@@ -103,7 +94,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
-                        "\$ ${widget.price}",
+                        "\$ ${productsAttributes.price}",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
@@ -117,7 +108,7 @@ class _FeedsProductsState extends State<FeedsProducts> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Quantity: ${widget.quantity}",
+                          "Quantity: ${productsAttributes.quantity}",
                           maxLines: 2,
                           style: TextStyle(
                             fontSize: 12,

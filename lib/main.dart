@@ -1,6 +1,6 @@
 import 'package:ecommerce/consts/theme_data.dart';
-import 'package:ecommerce/inner_screens/brands_navigation_rail%20copy.dart';
 import 'package:ecommerce/provider/dark_theme_provider.dart';
+import 'package:ecommerce/provider/products.dart';
 import 'package:ecommerce/scrrens/bottom_bar.dart';
 import 'package:ecommerce/scrrens/cart.dart';
 import 'package:ecommerce/scrrens/feeds.dart';
@@ -8,6 +8,8 @@ import 'package:ecommerce/scrrens/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'inner_screens/brands_navigation_rail.dart';
+import 'inner_screens/categories_feeds.dart';
 import 'inner_screens/product_detail.dart';
 
 void main() {
@@ -41,7 +43,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) {
           return themeChangeProvider;
-        })
+        }),
+        ChangeNotifierProvider(
+          create: (_) => Products(),
+        ),
       ],
       child: Consumer<DarkThemeProvider>(
         builder: (
@@ -57,6 +62,7 @@ class _MyAppState extends State<MyApp> {
               BrandNavigationRailScreen.routeName: (ctx) =>
                   BrandNavigationRailScreen(),
               Feeds.routeName: (ctx) => Feeds(),
+              CategoriesFeedsScreen.routeName: (ctx) => CategoriesFeedsScreen(),
               Cart.routeName: (ctx) => Cart(),
               Wishlist.routeName: (ctx) => Wishlist(),
               ProductDetails.routeName: (ctx) => ProductDetails(),

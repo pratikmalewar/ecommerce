@@ -1,5 +1,7 @@
 import 'package:ecommerce/consts/theme_data.dart';
+import 'package:ecommerce/provider/cart_provider.dart';
 import 'package:ecommerce/provider/dark_theme_provider.dart';
+import 'package:ecommerce/provider/favs_provider.dart';
 import 'package:ecommerce/provider/products.dart';
 import 'package:ecommerce/scrrens/bottom_bar.dart';
 import 'package:ecommerce/scrrens/cart.dart';
@@ -47,6 +49,12 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => Products(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FavsProvider(),
+        ),
       ],
       child: Consumer<DarkThemeProvider>(
         builder: (
@@ -63,7 +71,7 @@ class _MyAppState extends State<MyApp> {
                   BrandNavigationRailScreen(),
               Feeds.routeName: (ctx) => Feeds(),
               CategoriesFeedsScreen.routeName: (ctx) => CategoriesFeedsScreen(),
-              Cart.routeName: (ctx) => Cart(),
+              CartScreen.routeName: (ctx) => CartScreen(),
               Wishlist.routeName: (ctx) => Wishlist(),
               ProductDetails.routeName: (ctx) => ProductDetails(),
             },

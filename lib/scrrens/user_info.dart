@@ -1,6 +1,7 @@
 import 'package:ecommerce/consts/colors.dart';
 import 'package:ecommerce/consts/my_icons.dart';
 import 'package:ecommerce/provider/dark_theme_provider.dart';
+import 'package:ecommerce/scrrens/cart.dart';
 import 'package:ecommerce/scrrens/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -125,9 +126,8 @@ class _UserInfoState extends State<UserInfo> {
                     child: InkWell(
                       splashColor: Theme.of(context).splashColor,
                       child: ListTile(
-                        onTap: () => Navigator.of(context).pushNamed(
-                          Wishlist.routeName
-                        ),
+                        onTap: () =>
+                            Navigator.of(context).pushNamed(Wishlist.routeName),
                         title: Text("Wishlist"),
                         trailing: Icon(Icons.chevron_right_outlined),
                         leading: Icon(MyAppIcons.wishlist),
@@ -139,7 +139,8 @@ class _UserInfoState extends State<UserInfo> {
                     child: InkWell(
                       splashColor: Theme.of(context).splashColor,
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(CartScreen.routeName),
                         title: Text("Cart"),
                         trailing: Icon(Icons.chevron_right_outlined),
                         leading: Icon(MyAppIcons.cart),

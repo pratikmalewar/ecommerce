@@ -1,6 +1,8 @@
 import 'package:ecommerce/consts/colors.dart';
 import 'package:ecommerce/consts/my_icons.dart';
+import 'package:ecommerce/provider/cart_provider.dart';
 import 'package:ecommerce/provider/dark_theme_provider.dart';
+import 'package:ecommerce/provider/favs_provider.dart';
 import 'package:ecommerce/provider/products.dart';
 import 'package:ecommerce/scrrens/cart.dart';
 import 'package:ecommerce/scrrens/wishlist.dart';
@@ -21,14 +23,15 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final favsProvider = Provider.of<FavsProvider>(context);
     final themeState = Provider.of<DarkThemeProvider>(context);
-    final productData = Provider.of<Products>(context);
+    final productData = Provider.of<Products>(context, listen: false);
+    final cartProvider = Provider.of<CartProvider>(context);
 
     final productId = ModalRoute.of(context).settings.arguments as String;
 
     print('Product Id $productId');
     final productAttr = productData.findById(productId);
-
 
     final productList = productData.products;
     return Scaffold(
@@ -37,14 +40,9 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             Container(
               foregroundDecoration: BoxDecoration(color: Colors.black12),
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.45,
+              height: MediaQuery.of(context).size.height * 0.45,
               width: double.infinity,
-              child: Image.network(
-                  productAttr.imageUrl
-              ),
+              child: Image.network(productAttr.imageUrl),
             ),
             SingleChildScrollView(
               padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
@@ -95,9 +93,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                   Container(
-                    color: Theme
-                        .of(context)
-                        .scaffoldBackgroundColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     width: double.infinity,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,10 +104,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.9,
+                                width: MediaQuery.of(context).size.width * 0.9,
                                 child: Text(
                                   productAttr.title,
                                   maxLines: 2,
@@ -127,9 +120,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 'US \$ ${productAttr.price}',
                                 style: TextStyle(
                                   color: themeState.darkTheme
-                                      ? Theme
-                                      .of(context)
-                                      .disabledColor
+                                      ? Theme.of(context).disabledColor
                                       : ColorsConsts.subTitle,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 21,
@@ -158,9 +149,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             productAttr.description,
                             style: TextStyle(
                               color: themeState.darkTheme
-                                  ? Theme
-                                  .of(context)
-                                  .disabledColor
+                                  ? Theme.of(context).disabledColor
                                   : ColorsConsts.subTitle,
                               fontWeight: FontWeight.w400,
                               fontSize: 21,
@@ -178,12 +167,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                             height: 1,
                           ),
                         ),
-                        _details(themeState.darkTheme, 'Brand: ', '${productAttr.brand}'),
-                        _details(themeState.darkTheme, 'Quantity: ', '${productAttr.quantity}'),
-                        _details(
-                            themeState.darkTheme, 'Category: ', '${productAttr.productCategoryName}'),
-                        _details(
-                            themeState.darkTheme, 'Popularity: ', productAttr.isPopular? 'Popular' : 'Barely know'),
+                        _details(themeState.darkTheme, 'Brand: ',
+                            '${productAttr.brand}'),
+                        _details(themeState.darkTheme, 'Quantity: ',
+                            '${productAttr.quantity}'),
+                        _details(themeState.darkTheme, 'Category: ',
+                            '${productAttr.productCategoryName}'),
+                        _details(themeState.darkTheme, 'Popularity: ',
+                            productAttr.isPopular ? 'Popular' : 'Barely know'),
                         SizedBox(
                           height: 15,
                         ),
@@ -193,9 +184,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           height: 1,
                         ),
                         Container(
-                          color: Theme
-                              .of(context)
-                              .backgroundColor,
+                          color: Theme.of(context).backgroundColor,
                           width: double.infinity,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -209,9 +198,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   'No reviews yet',
                                   style: TextStyle(
                                       color:
-                                      Theme
-                                          .of(context)
-                                          .textSelectionColor,
+                                          Theme.of(context).textSelectionColor,
                                       fontSize: 21.0,
                                       fontWeight: FontWeight.w600),
                                 ),
@@ -223,9 +210,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     color: themeState.darkTheme
-                                        ? Theme
-                                        .of(context)
-                                        .disabledColor
+                                        ? Theme.of(context).disabledColor
                                         : ColorsConsts.subTitle,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -243,9 +228,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(8.0),
-                    color: Theme
-                        .of(context)
-                        .scaffoldBackgroundColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     child: Text(
                       'Suggest products',
                       style: TextStyle(
@@ -264,7 +247,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         itemBuilder: (BuildContext ctx, int index) {
                           return ChangeNotifierProvider.value(
                               value: productList[index],
-                              child:  FeedsProducts());
+                              child: FeedsProducts());
                         }),
                   )
                 ],
@@ -297,7 +280,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(Cart.routeName);
+                      Navigator.of(context).pushNamed(CartScreen.routeName);
                     },
                     icon: Icon(
                       MyAppIcons.cart,
@@ -319,9 +302,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         shape: RoundedRectangleBorder(side: BorderSide.none),
                         color: Colors.redAccent.shade400,
-                        onPressed: () {},
+                        onPressed:
+                            cartProvider.getCartItems.containsKey(productId)
+                                ? () {}
+                                : () {
+                                    cartProvider.addProductToCart(
+                                        productId,
+                                        productAttr.price,
+                                        productAttr.title,
+                                        productAttr.imageUrl);
+                                  },
                         child: Text(
-                          'Add To Cart'.toUpperCase(),
+                          cartProvider.getCartItems.containsKey(productId)
+                              ? 'In cart'
+                              : 'Add To Cart'.toUpperCase(),
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
@@ -342,9 +336,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               'Buy Now'.toUpperCase(),
                               style: TextStyle(
                                   fontSize: 14,
-                                  color: Theme
-                                      .of(context)
-                                      .textSelectionColor),
+                                  color: Theme.of(context).textSelectionColor),
                             ),
                             SizedBox(
                               width: 5,
@@ -363,18 +355,28 @@ class _ProductDetailsState extends State<ProductDetails> {
                       flex: 1,
                       child: Container(
                         color: themeState.darkTheme
-                            ? Theme
-                            .of(context)
-                            .disabledColor
+                            ? Theme.of(context).disabledColor
                             : ColorsConsts.subTitle,
                         height: 50,
                         child: InkWell(
                           splashColor: ColorsConsts.favColor,
-                          onTap: () {},
+                          onTap: () {
+                            favsProvider.addAndRemoveFromFav(
+                              productId,
+                              productAttr.price,
+                              productAttr.title,
+                              productAttr.imageUrl,
+                            );
+                          },
                           child: Center(
                             child: Icon(
-                              MyAppIcons.wishlist,
-                              color: ColorsConsts.white,
+                              favsProvider.getFavsItems.containsKey(productId)
+                                  ? Icons.favorite
+                                  : MyAppIcons.wishlist,
+                              color: favsProvider.getFavsItems
+                                      .containsKey(productId)
+                                  ? Colors.red
+                                  : ColorsConsts.white,
                             ),
                           ),
                         ),
@@ -397,9 +399,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Text(
             title,
             style: TextStyle(
-              color: Theme
-                  .of(context)
-                  .textSelectionColor,
+              color: Theme.of(context).textSelectionColor,
               fontWeight: FontWeight.w600,
               fontSize: 21.0,
             ),
@@ -408,9 +408,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             info,
             style: TextStyle(
               color: themeState
-                  ? Theme
-                  .of(context)
-                  .disabledColor
+                  ? Theme.of(context).disabledColor
                   : ColorsConsts.subTitle,
               fontWeight: FontWeight.w400,
               fontSize: 20.0,

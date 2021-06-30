@@ -1,5 +1,6 @@
 import 'package:ecommerce/consts/colors.dart';
 import 'package:ecommerce/provider/dark_theme_provider.dart';
+import 'package:ecommerce/scrrens/feeds.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,9 +18,9 @@ class WishListEmpty extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.4,
           decoration: BoxDecoration(
               image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage('assets/images/empty-wishlist.png'),
-              )),
+            fit: BoxFit.fill,
+            image: AssetImage('assets/images/empty-wishlist.png'),
+          )),
         ),
         Text(
           'Your Wishlist Is Empty',
@@ -41,14 +42,17 @@ class WishListEmpty extends StatelessWidget {
                   : ColorsConsts.subTitle,
               fontSize: 26,
               fontWeight: FontWeight.w600),
-        ), SizedBox(
+        ),
+        SizedBox(
           height: 30,
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.06,
           child: RaisedButton(
-            onPressed: () {},
+            onPressed: () => {
+              Navigator.of(context).pushNamed(Feeds.routeName),
+            },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
               side: BorderSide(
@@ -56,7 +60,7 @@ class WishListEmpty extends StatelessWidget {
               ),
             ),
             color: Colors.redAccent,
-            child:  Text(
+            child: Text(
               'Add a wish'.toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
